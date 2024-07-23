@@ -1,6 +1,6 @@
 # REST API
 
-<div align="right" >
+<div align="center" >
   <img src="https://www.svgrepo.com/show/354202/postman-icon.svg" alt="Postman" width="100"/>
 </div>
 
