@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "7ea20710-75bb-44fe-b89d-99894b7b4650",
+		"name": "REST_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3513773"
+	},
+	"item": [
+		{
+			"name": "Feature: Create Subtask",
+			"item": [
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* author: Leandro Estevao",
+									"*/",
+									"",
+									"/*Response Validation: Status Code*/ ",
+									"subtask.status_code(200, \"OK\")",
+									"",
+									"/** Response Validation: Header*/ ",
+									"subtask.header(pm)",
+									"",
+									"/**Response Validation: Body*/ ",
+									"subtask.body_get(responseBody)",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "applicati5on/jsdonfsdfds",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{endpointTest}}/posts",
+							"host": [
+								"{{endpointTest}}"
+							],
+							"path": [
+								"posts"
+							]
+						},
+						"description": "Realiza a consulta de todos os posts"
+					},
+					"response": []
+				},
+				{
+					"name": "Validate the pop-up of Subtask",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* author: Leandro Estevao\r",
+									"*/\r",
+									"\r",
+									"/*Response Validation: Status Code*/ \r",
+									"subtask.status_code(201, \"Created\")\r",
+									"\r",
+									"/** Response Validation: Header*/ \r",
+									"subtask.header(pm)\r",
+									"\r",
+									"/**Response Validation: Body*/ \r",
+									"subtask.body_post(responseBody)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"title\":\"Worklog - Task created\",\r\n\t\"subtitile\":\"SubTask Worklog\",\r\n\t\"ID\": 101\r\n}"
+						},
+						"url": {
+							"raw": "{{endpointTest}}/posts",
+							"host": [
+								"{{endpointTest}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "**`Feature`**`:` Create Subtask\n\n**`Background`**`:` John should have at least one created task at ‘My task’ screen\n\n**`Scenario`**`: Validate the pop-up of Subtask`\n\n**`Given`** `John opens the task created at ‘My task’ screen`\n\n**`When`** `John clicks on the button ‘Create Subtask’`\n\n**`Then`** `is showed a pop-up with an ID and description the task`"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"subtask = {",
+					"    status_code: function (status_code, name) {",
+					"        pm.test(\"TC 01 - Status code must be \"+ status_code +\" \" + name, function () {",
+					"            pm.response.to.have.status(status_code, name);",
+					"        });",
+					"",
+					"        /* pm.test(\"Status code name must be \"+ name, function () {",
+					"            pm.response.to.have.status(name);",
+					"        });",
+					"        */",
+					"         pm.test(\"TC 02 - Response time must be under 60000 ms\", function () {",
+					"            pm.expect(pm.response.responseTime).to.be.below(60000);",
+					"",
+					"        });",
+					"        pm.test(\"TC 03 - Response size must be under 27.97 KB\", function () {",
+					"            pm.expect(pm.response.responseSize).to.be.below(27970);",
+					"        });",
+					"    },",
+					"",
+					"    header: function (pm) {",
+					"        pm.test(\"TC 04 - Response Header must be Connection  = 'keep-alive' \", function (){",
+					"            pm.expect(pm.response.headers.get('Connection')).to.eql('keep-alive');",
+					"        });",
+					"",
+					"         pm.test(\"TC 05 - Response Header must be Server  = 'cloudflare' \", function (){",
+					"            pm.expect(pm.response.headers.get('Server')).to.eql('cloudflare'); ",
+					"        });",
+					"",
+					"         pm.test(\"TC 06 - Response Header must be Content-Type  = 'application/json; charset=utf-8' \", function (){",
+					"            pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8'); ",
+					"        });",
+					"        pm.test(\"TC 07 - Response Header must be alt-svc = h3=:443; ma=86400\", function () {",
+					"            pm.expect(pm.response.headers.get('alt-svc')).to.eql('h3=\":443\"; ma=86400');",
+					"        });",
+					"    },",
+					"",
+					"    body_post:  function(responseBody){",
+					"        var responseJson = JSON.parse(responseBody);",
+					"        pm.test(\"TC 08 - Response Body must not be null \", function (){",
+					"            pm.expect(responseBody).to.not.eql(null);",
+					"        });",
+					"    },",
+					"",
+					"    body_get:  function(responseBody){",
+					"        var responseJson = JSON.parse(responseBody);",
+					"        pm.test(\"TC 08 - Response Body must not be null \", function (){",
+					"            pm.expect((responseBody).length).to.be.greaterThan(0);",
+					"        });",
+					"",
+					"        var responseJson = JSON.parse(responseBody);",
+					"        pm.test(\"TC 09 - Response Body must have userId, id, title, body\", function (){",
+					"            for(var cont = 0; cont < responseBody; cont ++){",
+					"                // Body Schema",
+					"                pm.expect(responseBody[cont].userId).to.be.a('number');",
+					"                pm.expect(responseBody[cont].id).to.be.a('number');",
+					"                pm.expect(responseBody[cont].title).to.be.a('string');",
+					"                pm.expect(responseBody[cont].body).to.be.a('string');",
+					"                //Body Content",
+					"                pm.expect(responseBody[cont].userId).to.be.greaterThan(0);",
+					"                pm.expect(responseBody[cont].id).to.be.greaterThan(0);",
+					"                pm.expect(responseBody[cont].title).to.not.eql(\"\");",
+					"                pm.expect(responseBody[cont].body).to.not.eql(\"\");",
+					"            }",
+					"        });",
+					"",
+					"        pm.test(\"TC 10 - Response Body must not be duplicate Ids \", function (){",
+					"            var responseJson = JSON.parse(responseBody);",
+					"            var listaIds = responseJson.map((post)=>{",
+					"                return post.id;",
+					"            });",
+					"            //Create a list of ids and if there are repeated values, only one will be displayed",
+					"            var listaIdsSemDadosDuplicados = new Set(listaIds);",
+					"            //If the two lists are the same, there are no repeated ids",
+					"            pm.expect(listaIds.length).to.eql(listaIdsSemDadosDuplicados.size);",
+					"        });  ",
+					"    }",
+					"",
+					"}"
+				]
+			}
+		}
+	]
+}
